@@ -9,7 +9,8 @@ Currently the code is just connecting to the database, and has a basic functions
 ## TODO
 
 1. Get data from Redis (JSON format)
-3. Call the functions that will execute statements in the database to migrate the data
+2. Call the functions that will execute statements in the database to migrate the data
+3. Do goroutines
 
 ## Additional Requirement
 

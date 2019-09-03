@@ -1,4 +1,4 @@
-package main
+package data_migration
 
 import (
 	"database/sql"
@@ -15,7 +15,7 @@ type Student struct {
 	Age int
 }
 
-func main() {
+func init() {
 	db, err := sql.Open("mysql", "username:password@tcp(127.0.0.1:3306)/test")
 	if err != nil {
 		debug.PrintStack()

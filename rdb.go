@@ -2,6 +2,7 @@ package data_migration
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"runtime/debug"
@@ -13,6 +14,7 @@ type Student struct {
 	StudentNo int
 	FullName string
 	Age int
+	OldStudentNo int
 }
 
 func init() {
@@ -27,18 +29,20 @@ func init() {
 		debug.PrintStack()
 		log.Fatal(err)
 	}
+
+	fmt.Println("Successfully pinged database.")
 }
 
-func insert(student Student) error {
-	_, err := db.Exec("INSERT student VALUES (?, ?, ?)", student.StudentNo, student.FullName, student.Age)
+func Insert(student Student) error {
+	_, err := db.Exec("INSERT student (fullName, age, oldStudentNo) VALUES (?, ?, ?)", student.StudentNo, student.FullName, student.Age)
 
-	return err;
+	return err
 }
 
-func query(studentNo int) (Student, error) {
+func Find(studentNo int) (Student, error) {
 	student := Student{}
 
-	err := db.QueryRow("SELECT * FROM student WHERE studentNo = ?", studentNo).Scan(&student.StudentNo, &student.FullName, &student.Age)
+	err := db.QueryRow("SELECT * FROM student WHERE oldStudentNo = ?", studentNo).Scan(&student.StudentNo, &student.FullName, &student.Age, &student.OldStudentNo)
 
 	return student, err
 }
